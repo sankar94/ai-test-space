@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Report Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div id="map"></div>
+
+    <!-- Status Display -->
+    <div id="status" class="status info">Initializing map...</div>
+
+    <!-- Layer Control Panel -->
+    <div id="layer-control">
+        <h4>Map Layers</h4>
+        <label><input type="checkbox" id="toggle-flood" checked> Flood Areas</label>
+        <label><input type="checkbox" id="toggle-crime" checked> Crime Reports</label>
+        <label><input type="checkbox" id="toggle-incident" checked> Incident Reports</label>
+    </div>
+
+    <!-- Search Control with Filter and Results -->
+    <div id="search-control">
+        <div class="search-input-container">
+            <input type="text" id="search-box" placeholder="Search by description, vehicle, type...">
+        </div>
+        <div class="search-buttons">
+            <button id="search-button">🔍 Search</button>
+            <button id="clear-search">✕ Clear</button>
+        </div>
+
+        <!-- Filter Control - Inside Search Panel -->
+        <div id="filter-control">
+            <button id="filter-toggle" class="filter-button">
+                🔽 Filters
+            </button>
+            <div id="filter-dropdown" class="filter-dropdown" style="display:none;">
+                <div class="filter-section">
+                    <strong>Crime Types:</strong>
+                    <label><input type="checkbox" class="crime-filter" value="theft" checked> Theft</label>
+                    <label><input type="checkbox" class="crime-filter" value="assault" checked> Assault</label>
+                    <label><input type="checkbox" class="crime-filter" value="others" checked> Others</label>
+                </div>
+                <div class="filter-section">
+                    <strong>Incident Types:</strong>
+                    <label><input type="checkbox" class="incident-filter" value="abandoned-vehicle" checked> Abandoned Vehicle</label>
+                    <label><input type="checkbox" class="incident-filter" value="accident" checked> Accident</label>
+                    <label><input type="checkbox" class="incident-filter" value="others" checked> Others</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search Results Section -->
+        <div id="search-results" style="display:none;">
+            <h4><span id="result-count">0</span> results found</h4>
+            <div id="results-list"></div>
+        </div>
+    </div>
+
+    <!-- Report Modal -->
+    <div id="report-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Report an Incident</h2>
+            <form id="report-form">
+                <label>Report Type:</label>
+                <select id="report-type" required>
+                    <option value="">-- Select Type --</option>
+                    <option value="crime">Crime</option>
+                    <option value="incident">Incident</option>
+                </select>
+
+                <div id="crime-subtypes" style="display:none;">
+                    <label>Crime Type:</label>
+                    <select id="crime-subtype">
+                        <option value="theft">Theft</option>
+                        <option value="assault">Assault</option>
+                        <option value="others">Others</option>
+                    </select>
+                </div>
+
+                <div id="incident-subtypes" style="display:none;">
+                    <label>Incident Type:</label>
+                    <select id="incident-subtype">
+                        <option value="abandoned-vehicle">Abandoned Vehicle</option>
+                        <option value="accident">Accident</option>
+                        <option value="others">Others</option>
+                    </select>
+                </div>
+
+                <label>Description:</label>
+                <textarea id="report-description" rows="4" required></textarea>
+
+                <label>Vehicle Number (if applicable):</label>
+                <input type="text" id="vehicle-number" placeholder="e.g., TN01AB1234">
+
+                <label>Upload Images (optional, multiple allowed):</label>
+                <input type="file" id="report-images" accept="image/*" multiple>
+
+                <div id="image-preview"></div>
+
+                <label>Location:</label>
+                <div id="location-selection">
+                    <button type="button" id="use-current-location">Use My Location</button>
+                    <button type="button" id="select-on-map">Select on Map</button>
+                    <div id="selected-coords"></div>
+                </div>
+
+                <button type="submit">Submit Report</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- View Report Details Modal -->
+    <div id="detail-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-detail">&times;</span>
+            <div id="detail-content"></div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
